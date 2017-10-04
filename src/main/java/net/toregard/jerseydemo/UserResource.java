@@ -93,7 +93,7 @@ public class UserResource
     {
         User user1 = new User();
         user1.setId(1);
-        user1.setFirstName("John");
+        user1.setFirstName("Tore Gard");
         user1.setLastName("Wick");
         user1.setUri("/user-management/1");
 
