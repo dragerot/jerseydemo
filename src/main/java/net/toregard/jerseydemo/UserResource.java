@@ -99,7 +99,7 @@ public class UserResource
 
         User user2 = new User();
         user2.setId(2);
-        user2.setFirstName("Harry");
+        user2.setFirstName("Sturarargit");
         user2.setLastName("Potter");
         user2.setUri("/user-management/2");
 
