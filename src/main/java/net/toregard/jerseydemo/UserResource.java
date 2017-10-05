@@ -1,5 +1,9 @@
 package net.toregard.jerseydemo;
 
+import net.toregard.jerseydemo.visitorpattern.Computer;
+import net.toregard.jerseydemo.visitorpattern.ComputerPart;
+import net.toregard.jerseydemo.visitorpattern.ComputerPartDisplayVisitor;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ public class UserResource
     @GET
     @Produces("application/json")
     public Users getAllUsers() {
+        ComputerPart computer = new Computer();
+        computer.accept(new ComputerPartDisplayVisitor());
+
         Users users = new Users();
         users.setUsers(new ArrayList<>(DB.values()));
         return users;
