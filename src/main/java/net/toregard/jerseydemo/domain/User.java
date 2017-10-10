@@ -1,4 +1,4 @@
-package net.toregard.jerseydemo;
+package net.toregard.jerseydemo.domain;
 
 import java.io.Serializable;
 

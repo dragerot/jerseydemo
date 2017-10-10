@@ -1,8 +1,11 @@
-package net.toregard.jerseydemo;
+package net.toregard.jerseydemo.restresources;
 
-import net.toregard.jerseydemo.visitorpattern.Computer;
-import net.toregard.jerseydemo.visitorpattern.ComputerPart;
-import net.toregard.jerseydemo.visitorpattern.ComputerPartDisplayVisitor;
+import net.toregard.jerseydemo.domain.User;
+import net.toregard.jerseydemo.domain.Users;
+import net.toregard.jerseydemo.business.Computer;
+import net.toregard.jerseydemo.business.ComputerPart;
+import net.toregard.jerseydemo.business.ComputerPartDisplayVisitor;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,7 +46,7 @@ public class UserResource
 
     @POST
     @Consumes("application/json")
-    public Response createUser(User user) throws URISyntaxException
+    public Response createUser(@RequestBody User user) throws URISyntaxException
     {
         if(user.getFirstName() == null || user.getLastName() == null) {
             return Response.status(400).entity("Please provide all mandatory inputs").build();

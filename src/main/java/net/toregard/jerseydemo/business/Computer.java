@@ -1,4 +1,4 @@
-package net.toregard.jerseydemo.visitorpattern;
+package net.toregard.jerseydemo.business;
 
 public class Computer implements ComputerPart {
     ComputerPart[] parts;

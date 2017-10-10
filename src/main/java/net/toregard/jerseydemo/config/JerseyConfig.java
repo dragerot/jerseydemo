@@ -1,5 +1,6 @@
-package net.toregard.jerseydemo;
+package net.toregard.jerseydemo.config;
 
+import net.toregard.jerseydemo.restresources.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
