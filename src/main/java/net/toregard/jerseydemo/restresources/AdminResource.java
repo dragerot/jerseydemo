@@ -16,6 +16,6 @@ public class AdminResource {
     @Produces("application/json")
     public String getImage() {
 
-        return "hallo";
+        return "test 3";
     }
 }

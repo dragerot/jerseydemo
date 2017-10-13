@@ -5,6 +5,8 @@ import net.toregard.jerseydemo.domain.Users;
 import net.toregard.jerseydemo.business.Computer;
 import net.toregard.jerseydemo.business.ComputerPart;
 import net.toregard.jerseydemo.business.ComputerPartDisplayVisitor;
+import net.toregard.jerseydemo.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
@@ -32,16 +34,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserResource
 {
     private static Map<Integer, User> DB = new HashMap<>();
+    @Autowired
+    UserService userService;
 
     @GET
     @Produces("application/json")
     public Users getAllUsers() {
-        ComputerPart computer = new Computer();
-        computer.accept(new ComputerPartDisplayVisitor());
-
-        Users users = new Users();
-        users.setUsers(new ArrayList<>(DB.values()));
-        return users;
+        return userService.listUser();
     }
 
     @POST
