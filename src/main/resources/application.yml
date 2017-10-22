@@ -1,0 +1,13 @@
+OPENSHIFT_URL: https://192.168.99.100:8443
+security:
+  oauth2:
+    client:
+      client-id: 0oabrnpfnmaa2eZQe0h7
+      client-secret:
+      access-token-uri: https://dev-425023.oktapreview.com/oauth2/ausbrt78n38PWgZFr0h7/.well-known/oauth-authorization-server
+      user-authorization-uri: https://dev-425023.oktapreview.com/oauth2/ausbrt78n38PWgZFr0h7/.well-known/oauth-authorization-server
+    resource:
+      user-info-uri: http://localhost:8081/auth/me
+logging:
+  level:
+    org.springframework: INFO

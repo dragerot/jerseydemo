@@ -6,6 +6,7 @@ import javax.ws.rs.Produces;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.ws.Response;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -14,8 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AdminResource {
     @GET
     @Produces("application/json")
-    public String getImage() {
+    public String getname(String hallo) {
 
-        return "test 3";
+        return "hallo:"+hallo;
     }
 }
