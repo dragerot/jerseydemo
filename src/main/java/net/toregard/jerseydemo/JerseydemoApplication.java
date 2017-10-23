@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import java.util.List;
 
 @SpringBootApplication
-//@EnableOAuth2Sso
+@EnableOAuth2Sso
 public class JerseydemoApplication extends RepositoryRestConfigurerAdapter {
 
     public static void main(String[] args) {
