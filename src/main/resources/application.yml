@@ -1,13 +1,14 @@
 security:
   oauth2:
     client:
-      client-id: 0oabrnpfnmaa2eZQe0h7
-      client-secret: EDM4iZYZL5079CSB8xB---Ky83xRmt5AqAAH_Krs
-      access-token-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/token
-      user-authorization-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/authorize
+      client-id: 0oacl0g1u0PyK36Lw0h7
+      client-secret: zlxNAgmp86lup6A9osdV05piJ0N3hD15Oy0iF58T
+
+      access-token-uri: https://dev-191292.oktapreview.com/oauth2/default/v1/token
+      user-authorization-uri: https://dev-191292.oktapreview.com/oauth2/default/v1/authorize
       scope: openid
     resource:
-      token-info-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/userinfo
+      token-info-uri: https://dev-191292.oktapreview.com/oauth2/default/v1/userinfo
 logging:
   level:
     org.springframework: INFO
