@@ -16,32 +16,34 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {AppTest.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+        //(classes = {AppTest.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class JerseydemoApplicationTests {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Test
+   // @Test
     public void initTest() {
         assertThat(testRestTemplate, is(notNullValue()));
     }
 
-    //@Test
+   // @Test
     public void listUsersTest() {
         ResponseEntity<Users> users = this.testRestTemplate.getForEntity("/users", Users.class);
         assertThat(users, is(notNullValue()));
         assertThat(users.getStatusCodeValue(), is(200));
     }
 
-    @Test
+ //   @Test
     public void getAdmninResourceTest() {
-        this.testRestTemplate.getForEntity(
-                "/{username}/vehicle", String.class, "Phil");
+//        ResponseEntity<?> s=this.testRestTemplate.getForEntity(
+//                "/{username}/vehicle", String.class, "Phil");
+        ResponseEntity<?> s=this.testRestTemplate.getForEntity("users/{id}", Integer.class, 1);
     }
 
 
-    @Test
+    //@Test
     public void contextLoads() {
         double d = 1.3;
         assertThat(d, is(1.3));

@@ -7,6 +7,7 @@ import net.toregard.jerseydemo.business.ComputerPart;
 import net.toregard.jerseydemo.business.ComputerPartDisplayVisitor;
 import net.toregard.jerseydemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
@@ -34,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserResource
 {
     private static Map<Integer, User> DB = new HashMap<>();
-    @Autowired
+
     UserService userService;
 
     @GET
@@ -70,6 +71,21 @@ public class UserResource
                 .entity(user)
                 .contentLocation(new URI("/user-management/"+id)).build();
     }
+
+//    @POST
+//    @Path("/{id}/hallo")
+//    @Produces("application/json")
+//    public Response getUserById(@PathParam("id") int id, User userArg) throws URISyntaxException
+//    {
+//        User user = DB.get(id);
+//        if(user == null) {
+//            return Response.status(404).build();
+//        }
+//        return Response
+//                .status(200)
+//                .entity(user)
+//                .contentLocation(new URI("/user-management/"+id)).build();
+//    }
 
     @PUT
     @Path("/{id}")

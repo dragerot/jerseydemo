@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import java.util.List;
 
 @SpringBootApplication
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 public class JerseydemoApplication extends RepositoryRestConfigurerAdapter {
 
     public static void main(String[] args) {
@@ -23,33 +23,4 @@ public class JerseydemoApplication extends RepositoryRestConfigurerAdapter {
                 .run(args);
     }
 
-    @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        super.configureRepositoryRestConfiguration(config);
-    }
-
-    @Override
-    public void configureConversionService(ConfigurableConversionService conversionService) {
-        super.configureConversionService(conversionService);
-    }
-
-    @Override
-    public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
-        super.configureValidatingRepositoryEventListener(validatingListener);
-    }
-
-    @Override
-    public void configureExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver exceptionResolver) {
-        super.configureExceptionHandlerExceptionResolver(exceptionResolver);
-    }
-
-    @Override
-    public void configureHttpMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
-        super.configureHttpMessageConverters(messageConverters);
-    }
-
-    @Override
-    public void configureJacksonObjectMapper(ObjectMapper objectMapper) {
-        super.configureJacksonObjectMapper(objectMapper);
-    }
 }

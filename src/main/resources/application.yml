@@ -1,14 +1,14 @@
-security:
-  oauth2:
-    client:
-      client-id: 0oabrnpfnmaa2eZQe0h7
-      client-secret: EDM4iZYZL5079CSB8xB---Ky83xRmt5AqAAH_Krs
-      access-token-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/token
-      user-authorization-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/authorize
-      scope: openid
-    resource:
-      token-info-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/userinfo
-logging:
-  level:
-    org.springframework: INFO
-OPENSHIFT_URL: https://192.168.99.100:8443
+#security:
+#  oauth2:
+#    client:
+#      client-id: 0oabrnpfnmaa2eZQe0h7
+#      client-secret: EDM4iZYZL5079CSB8xB---Ky83xRmt5AqAAH_Krs
+#      access-token-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/token
+#      user-authorization-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/authorize
+#      scope: openid
+#    resource:
+#      token-info-uri: https://dev-425023.oktapreview.com/oauth2/default/v1/userinfo
+#logging:
+#  level:
+#    org.springframework: INFO
+#OPENSHIFT_URL: https://192.168.99.100:8443
