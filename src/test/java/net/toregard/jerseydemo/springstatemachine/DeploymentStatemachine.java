@@ -47,6 +47,7 @@ public class DeploymentStatemachine {
                 .state(States.STATE_HAVE_CREATED_DEPLOYMENT_CONFIG)
                 .choice(States.STATE_HAVE_CREATED_SERVICE)
                 .state(States.STATE_HAVE_CREATED_ROUTE)
+                .end(States.END_STATE_FAILED_ON_DEPLOYMENT_CONFIG)
                 .end(States.HAPPY_END)
                 .states(EnumSet.allOf(States.class));
 
@@ -55,22 +56,20 @@ public class DeploymentStatemachine {
                 .withExternal()
                 .source(States.STATE_START_DEPLOY)
                 .target(States.STATE_HAVE_CREATED_DEPLOYMENT_CONFIG).event(Events.EVENT_CREATE_DEPLOYMENT)
-                .guard(event_create_deployment_Action())
+                .guard(guard_create_deployment_Action())
+                .and()
+                .withInternal()
+                 .action(doSomethingIntheDeploymentState()).event(Events.EVENT_CREATE_DEPLOYMENT)
                 .and()
                 .withExternal()
                 .source(States.STATE_HAVE_CREATED_DEPLOYMENT_CONFIG)
                 .target(States.STATE_HAVE_CREATED_SERVICE).event(Events.EVENT_CREATE_SERVICE)
-                .guard(event_create_serviceAction())
+                .guard(guard_create_serviceAction())
                 .and()
                 .withChoice()
                 .source(States.STATE_HAVE_CREATED_SERVICE)
-                .first(States.STATE_HAVE_CREATED_ROUTE,event_create_routeAction())
+                .first(States.STATE_HAVE_CREATED_ROUTE,guard_create_routeAction())
                 .last(States.END_STATE_FAILED_ON_ROUTE,errorAction())
-//                .and()
-//                .withExternal()
-//                .source(States.STATE_HAVE_CREATED_SERVICE)
-//                .target(States.STATE_HAVE_CREATED_ROUTE).event(Events.EVENT_CREATE_ROUTE)
-//                .guard(event_create_routeAction())
                 .and()
                 .withExternal()
                 .source(States.STATE_HAVE_CREATED_ROUTE)
@@ -84,10 +83,10 @@ public class DeploymentStatemachine {
         StateMachine<States, Events> machine = builder.build();
         machine.start();
         machine.getExtendedState().getVariables().put("CreateDeploymentRequest",CreateDeploymentRequest.builder().id("deployId").build());
-        machine.getExtendedState().getVariables().put("CreateServiceRequest",CreateServiceRequest.builder().id("").build());
+        machine.getExtendedState().getVariables().put("CreateServiceRequest",CreateServiceRequest.builder().id("serviceid").build());
         machine.getExtendedState().getVariables().put("CreateRouteRequest",CreateRouteRequest.builder().id("routeId").build());
         machine.sendEvent(Events.EVENT_CREATE_DEPLOYMENT);
-        machine.sendEvent(Events.EVENT_CREATE_SERVICE);
+        //machine.sendEvent(Events.EVENT_CREATE_SERVICE);
         //machine.sendEvent(Events.EVENT_CREATE_ROUTE);
         State state =machine.getState();
         //machine.sendEvent(Events.EVENT_HAPPY_END);
@@ -100,18 +99,23 @@ public class DeploymentStatemachine {
     }
 
     public Action<States, Events> event_start_Action() {
-        return ctx -> System.out.println("event_start_Action " + ctx.getTarget().getId());
+        return ctx ->{
+            System.out.println("event_start_Action " + ctx.getTarget().getId());
+
+        };
     }
 
 
-    public Action<States, Events> doSomethingIntheState() {
-        return ctx -> System.out.println(
-                "Do Something In the State " + ctx.getSource().getId());
-    }
-
-    public Guard<States, Events> event_create_deployment_Action() {
+    public Action<States, Events> doSomethingIntheDeploymentState() {
         return ctx -> {
-            System.out.println("event_create_deployment_Action " + ctx.getTarget().getId());
+            System.out.println("doSomethingIntheDeploymentState " + ctx.getSource().getId());
+            ctx.getStateMachine().sendEvent(Events.EVENT_CREATE_SERVICE);
+        };
+    }
+
+    public Guard<States, Events> guard_create_deployment_Action() {
+        return ctx -> {
+            System.out.println("guard_create_deployment_Action " + ctx.getTarget().getId());
             CreateDeploymentRequest createDeploymentRequest =ctx.getExtendedState().get("CreateDeploymentRequest",CreateDeploymentRequest.class);
             if(createDeploymentRequest==null || createDeploymentRequest.getId().trim().length()==0) return false;
             System.out.println("Input CreateDeploymentRequest id: " + createDeploymentRequest.getId());
@@ -120,9 +124,9 @@ public class DeploymentStatemachine {
 
     }
 
-    public Guard<States, Events> event_create_serviceAction() {
+    public Guard<States, Events> guard_create_serviceAction() {
         return ctx -> {
-            System.out.println("event_create_serviceAction " + ctx.getTarget().getId());
+            System.out.println("guard_create_serviceAction " + ctx.getTarget().getId());
             CreateServiceRequest createServiceRequest =ctx.getExtendedState().get("CreateServiceRequest",CreateServiceRequest.class);
             if(createServiceRequest==null || createServiceRequest.getId().trim().length()==0) return false;
             System.out.println("Input CreateServiceRequest id: " + createServiceRequest.getId());
@@ -130,10 +134,10 @@ public class DeploymentStatemachine {
         };
     }
 
-    public Guard<States, Events> event_create_routeAction() {
+    public Guard<States, Events> guard_create_routeAction() {
 
         return ctx -> {
-            System.out.println("event_create_routeAction " + ctx.getTarget().getId());
+            System.out.println("guard_create_routeAction " + ctx.getTarget().getId());
             CreateRouteRequest createRouteRequest =ctx.getExtendedState().get("CreateRouteRequest",CreateRouteRequest.class);
             if(createRouteRequest==null || createRouteRequest.getId().trim().length()==0) return false;
             System.out.println("Input CreateRouteRequest id: " + createRouteRequest.getId());
