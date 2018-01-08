@@ -1,4 +1,4 @@
-package net.toregard.jerseydemo.springstatemachine;
+package net.toregard.jerseydemo.springstatemachine.statemachine;
 
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
