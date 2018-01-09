@@ -17,18 +17,22 @@ public class DeploymentProcessTest {
     public enum States {
         START,
         DEPLOYCONFIG_CREATED, DEPLOYCONFIG_FAILED,
-        SERVICE_CREATED,SERVICE_FAILED,
+        SERVICE_CREATED,SERVICE_FAILED,SERVICE_STATE_ERROR_STOP,
         ROUTE_CREATED,
         SAVED,
         ROUTE_FAILED, DEPLOYED
     }
 
     public enum Events {
-        START_DEPLOY, FAILED_CREATE_SERVICE, FAILED_CREATE_ROUTE, FAILED_CREATE_DEPLOYCONFIG
+        START_DEPLOY,
+        FAILED_CREATE_SERVICE, SERVICE_STATE_ERROR_STOP,
+        FAILED_CREATE_ROUTE,
+        FAILED_CREATE_DEPLOYCONFIG
     }
 
     StateMachineBuilder.Builder<States, Events> createstateProcessBuilder() throws Exception {
         Actionshandlers actionshandlers = new Actionshandlers();
+        ActionStatesHandler actionStatesHandler = new ActionStatesHandler();
 
         StateMachineBuilder.Builder<States, Events> builder
                 = StateMachineBuilder.builder();
@@ -38,6 +42,9 @@ public class DeploymentProcessTest {
                 .state(States.DEPLOYCONFIG_CREATED)
                 .state(States.DEPLOYCONFIG_FAILED)
                 .state(States.SERVICE_CREATED)
+                 .stateDo(States.SERVICE_CREATED,
+                         actionStatesHandler.doServiceStateAction(),
+                         actionStatesHandler.doServiceStateErrorAction())
                 .state(States.SERVICE_FAILED)
                 .state(States.ROUTE_CREATED)
                 .state(States.ROUTE_FAILED)
@@ -67,6 +74,7 @@ public class DeploymentProcessTest {
                 .target(States.SERVICE_FAILED).event(Events.FAILED_CREATE_SERVICE)
                 .action(actionshandlers.deleteDeploymentAction())
                 .and()
+
                 .withExternal()
                 .source(States.SERVICE_FAILED)
                 .target(States.DEPLOYCONFIG_FAILED)
@@ -82,6 +90,13 @@ public class DeploymentProcessTest {
                 .target(States.ROUTE_FAILED).event(Events.FAILED_CREATE_ROUTE)
                 .action(actionshandlers.deleteServiceAction())
                 .and()
+                .withExternal()
+                .source(States.SERVICE_CREATED)
+                .target(States.SERVICE_STATE_ERROR_STOP).event(Events.SERVICE_STATE_ERROR_STOP)
+                .action(actionshandlers.deleteServiceAction())
+                .and()
+
+
                 .withExternal()
                 .source(States.ROUTE_FAILED)
                 .target(States.SERVICE_FAILED)
@@ -130,6 +145,17 @@ public class DeploymentProcessTest {
         machine.start();
         machine.sendEvent(Events.START_DEPLOY);
         assertThat(machine.getState().getId()).isEqualTo(States.DEPLOYCONFIG_FAILED);
+    }
+
+    @Test
+    public void failedOnServiceNode() throws Exception {
+        StateMachine<States, Events> machine = createstateProcessBuilder().build();
+        machine.getExtendedState().getVariables().put("CreateDeploymentRequest", CreateDeploymentRequest.builder().id("deployId").build());
+        machine.getExtendedState().getVariables().put("CreateServiceRequest", CreateServiceRequest.builder().id("stateError").build());
+        machine.start();
+        machine.sendEvent(Events.START_DEPLOY);
+        State<States,Events> state = machine.getState();
+        assertThat(state.getId()).isEqualTo(States.SERVICE_STATE_ERROR_STOP);
     }
 
     @Test
