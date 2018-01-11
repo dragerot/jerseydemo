@@ -16,16 +16,16 @@ public class ActionStatesHandler {
         };
     }
 
-    public Action<DeploymentProcessTest.States, DeploymentProcessTest.Events> doServiceStateErrorAction() {
-        return ctx -> {
-            System.out.println("*********doServiceStateErrorAction**************************");
-            ctx.getStateMachine().sendEvent(DeploymentProcessTest.Events.SERVICE_STATE_ERROR_STOP);
-        };
-    }
-
-    public Action<DeploymentProcessTest.States, DeploymentProcessTest.Events> doServiceStateErrorEndAction() {
-        return ctx -> {
-            System.out.println("*********doServiceStateErrorEndAction**************************");
-        };
-    }
+//    public Action<DeploymentProcessTest.States, DeploymentProcessTest.Events> doServiceStateErrorAction() {
+//        return ctx -> {
+//            System.out.println("*********doServiceStateErrorAction**************************");
+//            ctx.getStateMachine().sendEvent(DeploymentProcessTest.Events.SERVICE_STATE_ERROR_STOP);
+//        };
+//    }
+//
+//    public Action<DeploymentProcessTest.States, DeploymentProcessTest.Events> doServiceStateErrorEndAction() {
+//        return ctx -> {
+//            System.out.println("*********doServiceStateErrorEndAction**************************");
+//        };
+//    }
 }

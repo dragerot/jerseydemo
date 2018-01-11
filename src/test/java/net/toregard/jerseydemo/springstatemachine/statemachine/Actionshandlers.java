@@ -39,6 +39,7 @@ public class Actionshandlers {
             System.out.println("deleteDeploymentAction " + ctx.getTarget().getId());
             CreateDeploymentRequest createDeploymentRequest =ctx.getExtendedState().get("CreateDeploymentRequest",CreateDeploymentRequest.class);
             service.deleteDeploymentConfigService(createDeploymentRequest);
+
         };
     }
 
