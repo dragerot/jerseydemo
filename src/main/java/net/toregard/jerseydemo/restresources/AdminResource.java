@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Path("/admin")
 public class AdminResource {
     @GET
+    @Path("/")
     @Produces("application/json")
     public String getImage() {
-
-        return "test 3";
+        return "admin";
     }
 }

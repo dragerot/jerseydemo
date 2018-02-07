@@ -1,18 +1,12 @@
 package net.toregard.jerseydemo.restresources;
 
 import net.toregard.jerseydemo.domain.User;
-import net.toregard.jerseydemo.domain.Users;
-import net.toregard.jerseydemo.business.Computer;
-import net.toregard.jerseydemo.business.ComputerPart;
-import net.toregard.jerseydemo.business.ComputerPartDisplayVisitor;
 import net.toregard.jerseydemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,14 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserResource
 {
     private static Map<Integer, User> DB = new HashMap<>();
-
+    @Autowired
     UserService userService;
-
-    @GET
-    @Produces("application/json")
-    public Users getAllUsers() {
-        return userService.listUser();
-    }
 
     @POST
     @Consumes("application/json")
@@ -51,10 +39,10 @@ public class UserResource
         if(user.getFirstName() == null || user.getLastName() == null) {
             return Response.status(400).entity("Please provide all mandatory inputs").build();
         }
-        user.setId(DB.values().size()+1);
-        user.setUri("/user-management/"+user.getId());
-        DB.put(user.getId(), user);
-        return Response.status(201).contentLocation(new URI(user.getUri())).build();
+        return Response
+                .status(200)
+                .entity(getDummyUser())
+                .contentLocation(new URI("/user-management/"+getDummyUser().getSsn())).build();
     }
 
     @GET
@@ -72,63 +60,28 @@ public class UserResource
                 .contentLocation(new URI("/user-management/"+id)).build();
     }
 
-//    @POST
-//    @Path("/{id}/hallo")
-//    @Produces("application/json")
-//    public Response getUserById(@PathParam("id") int id, User userArg) throws URISyntaxException
-//    {
-//        User user = DB.get(id);
-//        if(user == null) {
-//            return Response.status(404).build();
-//        }
-//        return Response
-//                .status(200)
-//                .entity(user)
-//                .contentLocation(new URI("/user-management/"+id)).build();
-//    }
-
     @PUT
     @Path("/{id}")
     @Consumes("application/json")
     @Produces("application/json")
     public Response updateUser(@PathParam("id") int id, User user) throws URISyntaxException
     {
-        User temp = DB.get(id);
-        if(user == null) {
-            return Response.status(404).build();
-        }
-        temp.setFirstName(user.getFirstName());
-        temp.setLastName(user.getLastName());
-        DB.put(temp.getId(), temp);
-        return Response.status(200).entity(temp).build();
+        return Response.status(200).entity(getDummyUser()).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteUser(@PathParam("id") int id) throws URISyntaxException {
-        User user = DB.get(id);
-        if(user != null) {
-            DB.remove(user.getId());
-            return Response.status(200).build();
-        }
         return Response.status(404).build();
     }
 
-    static
-    {
-        User user1 = new User();
-        user1.setId(1);
-        user1.setFirstName("Tore Gard");
-        user1.setLastName("Wick");
-        user1.setUri("/user-management/1");
-
-        User user2 = new User();
-        user2.setId(2);
-        user2.setFirstName("Sturarargit");
-        user2.setLastName("Potter");
-        user2.setUri("/user-management/2");
-
-        DB.put(user1.getId(), user1);
-        DB.put(user2.getId(), user2);
+    private User getDummyUser(){
+        return User
+                .builder()
+                .ssn("0323231234")
+                .firstName("toge ere")
+                .lastName("Siste")
+                .build();
     }
+
 }
