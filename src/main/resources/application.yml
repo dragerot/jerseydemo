@@ -12,3 +12,11 @@
 #  level:
 #    org.springframework: INFO
 #OPENSHIFT_URL: https://192.168.99.100:8443
+
+person:
+  navn: toregard
+  adresse: hemmelig
+
+jobb:
+  yrke: sjef
+  adresse: hemmelig

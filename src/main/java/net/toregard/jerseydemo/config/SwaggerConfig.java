@@ -23,7 +23,7 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 "CV REST API",
                 "Server CV.",
                 "1.0",
@@ -31,6 +31,5 @@ public class SwaggerConfig {
                 "tore-gard@techpros.no",
                 "TODO",
                 "TODO");
-        return apiInfo;
     }
 }

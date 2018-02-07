@@ -15,7 +15,7 @@ public class AdminResource {
     @GET
     @Path("/")
     @Produces("application/json")
-    public String getImage() {
+    public String get() {
         return "admin";
     }
 }
